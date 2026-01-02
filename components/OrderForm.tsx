@@ -24,7 +24,7 @@ const OrderForm: React.FC<Props> = ({ onOrderSuccess, thumbUrl, googleSheetUrl, 
     const productInfo = 'QUÀ TẶNG MÁY W33 (0Đ) + PHỤ KIỆN';
     
     const newOrder: Order = {
-      id: Math.random().toString(36).substr(2, 9),
+      id: Math.random().toString(36).substring(2, 11),
       ...formData,
       product: productInfo,
       createdAt: Date.now()
@@ -105,13 +105,13 @@ const OrderForm: React.FC<Props> = ({ onOrderSuccess, thumbUrl, googleSheetUrl, 
 
               <form onSubmit={handleSubmit} className="space-y-8">
                 <div className="grid md:grid-cols-2 gap-8">
-                  <InputGroup label="Họ tên bác" value={formData.name} onChange={v => setFormData({...formData, name: v})} placeholder="Ví dụ: Nguyễn Văn A" required />
-                  <InputGroup label="Số điện thoại" value={formData.phone} onChange={v => setFormData({...formData, phone: v})} placeholder="090 123 4xxx" type="tel" required />
+                  <InputGroup label="Họ tên bác" value={formData.name} onChange={(v: string) => setFormData({...formData, name: v})} placeholder="Ví dụ: Nguyễn Văn A" required />
+                  <InputGroup label="Số điện thoại" value={formData.phone} onChange={(v: string) => setFormData({...formData, phone: v})} placeholder="090 123 4xxx" type="tel" required />
                 </div>
 
-                <InputGroup label="Địa chỉ nhận máy chi tiết" value={formData.address} onChange={v => setFormData({...formData, address: v})} placeholder="Số nhà, tên đường, phường/xã..." required isTextArea />
+                <InputGroup label="Địa chỉ nhận máy chi tiết" value={formData.address} onChange={(v: string) => setFormData({...formData, address: v})} placeholder="Số nhà, tên đường, phường/xã..." required isTextArea />
 
-                <InputGroup label="Lời nhắn (nếu có)" value={formData.note} onChange={v => setFormData({...formData, note: v})} placeholder="Ví dụ: Giao giờ hành chính..." isTextArea />
+                <InputGroup label="Lời nhắn (nếu có)" value={formData.note} onChange={(v: string) => setFormData({...formData, note: v})} placeholder="Ví dụ: Giao giờ hành chính..." isTextArea />
 
                 <div className="pt-6">
                   <button 
@@ -139,7 +139,17 @@ const PriceRow = ({label, value, strike, white, bold}: {label: string, value: st
   </div>
 );
 
-const InputGroup = ({label, value, onChange, placeholder, type = "text", required, isTextArea}: any) => (
+interface InputGroupProps {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  placeholder: string;
+  type?: string;
+  required?: boolean;
+  isTextArea?: boolean;
+}
+
+const InputGroup = ({label, value, onChange, placeholder, type = "text", required, isTextArea}: InputGroupProps) => (
   <div className="space-y-2.5">
     <label className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 ml-1">{label} {required && '*'}</label>
     {isTextArea ? (

@@ -8,7 +8,7 @@ import { CONTACT } from "../constants";
  */
 export const getHealthAdvice = async (userPrompt: string) => {
   // Lấy API_KEY trực tiếp từ process.env (được Vite nạp vào runtime)
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = process.env.API_KEY;
 
   if (!apiKey || apiKey === "undefined") {
     console.error("LỖI: API_KEY không tồn tại trong môi trường.");
