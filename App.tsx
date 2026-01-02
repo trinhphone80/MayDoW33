@@ -23,18 +23,21 @@ const App: React.FC = () => {
       thumbImageUrl: IMAGES.thumb,
       galleryImageUrls: IMAGES.gallery,
       googleSheetUrl: GOOGLE_SHEET_URL,
-      notificationEmail: CONTACT.email,
+      notificationEmail: 'duyphuong7@gmail.com',
     };
     
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
+        // Cập nhật lại Sheet URL nếu là bản cũ
         const oldUrlPart = 'AKfycbwCCdMUHhw5WnJ';
         if (!parsed.googleSheetUrl || parsed.googleSheetUrl.includes(oldUrlPart)) {
           parsed.googleSheetUrl = GOOGLE_SHEET_URL;
         }
-        if (!parsed.notificationEmail || parsed.notificationEmail === 'ducphuongmedical@gmail.com') {
-          parsed.notificationEmail = CONTACT.email;
+        // Ép buộc email mặc định nếu email cũ là bản trial/demo
+        const demoEmails = ['ducphuongmedical@gmail.com', 'admin@example.com'];
+        if (!parsed.notificationEmail || demoEmails.includes(parsed.notificationEmail)) {
+          parsed.notificationEmail = 'duyphuong7@gmail.com';
         }
         return { ...defaultConfig, ...parsed };
       } catch (e) {
@@ -88,9 +91,8 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <Header />
 
-      {/* Hero Section - Redesigned for Impact */}
+      {/* Hero Section */}
       <section className="relative pt-32 pb-16 lg:pt-48 lg:pb-32 overflow-hidden">
-        {/* Background blobs */}
         <div className="absolute top-0 right-0 w-1/2 h-full bg-red-50/30 -skew-x-12 transform origin-top translate-x-1/4 -z-10"></div>
         <div className="absolute top-1/2 left-0 w-64 h-64 bg-red-100/40 rounded-full blur-[120px] -z-10"></div>
 
@@ -164,7 +166,7 @@ const App: React.FC = () => {
 
       <Countdown />
 
-      {/* Features - Premium Grid */}
+      {/* Features Section */}
       <section className="py-32 bg-white relative">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="flex flex-col lg:flex-row items-center gap-20">
@@ -192,7 +194,7 @@ const App: React.FC = () => {
 
       <ProductGallery images={config.galleryImageUrls} />
 
-      {/* Order Section - Focus on Trust */}
+      {/* Order Section */}
       <OrderForm 
         onOrderSuccess={handleOrderSuccess} 
         thumbUrl={config.thumbImageUrl} 
@@ -205,50 +207,78 @@ const App: React.FC = () => {
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="grid lg:grid-cols-12 gap-16 pb-20 border-b border-white/5">
             <div className="lg:col-span-5 space-y-8">
-              <div className="flex items-center gap-4">
-                <img src={IMAGES.logo} alt="Logo" className="h-12 invert brightness-200" />
-                <h3 className="font-black text-2xl uppercase tracking-tighter">Đức Phương Medical</h3>
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-4">
+                  <img src={IMAGES.logo} alt="Logo" className="h-12 invert brightness-200" />
+                  <h3 className="font-black text-2xl uppercase tracking-tighter">Đức Phương Medical</h3>
+                </div>
+                <div className="text-[10px] font-black text-premium-red uppercase tracking-[0.2em]">{CONTACT.companyName}</div>
               </div>
-              <p className="text-gray-400 text-lg leading-relaxed max-w-md">
-                Đơn vị dẫn đầu trong lĩnh vực thiết bị y tế gia đình tại Việt Nam. Chúng tôi cam kết mang lại sự an tâm tuyệt đối cho khách hàng.
+              <p className="text-gray-400 text-sm leading-relaxed max-w-md font-medium">
+                Đơn vị dẫn đầu trong lĩnh vực thiết bị y tế gia đình tại Việt Nam. Chúng tôi cam kết mang lại sự an tâm tuyệt đối cho khách hàng bằng chất lượng và tâm huyết.
               </p>
               <div className="flex gap-4">
-                <SocialLink icon="fb" />
-                <SocialLink icon="zl" />
-                <SocialLink icon="yt" />
+                <SocialLink icon="YT" href={CONTACT.social.youtube} />
+                <SocialLink icon="FB" href={CONTACT.social.facebook} />
+                <SocialLink icon="TT" href={CONTACT.social.tiktok} />
+                <SocialLink icon="ZL" href={CONTACT.social.zalo} />
               </div>
             </div>
             
-            <div className="lg:col-span-3 space-y-8">
-              <h4 className="text-sm font-black uppercase tracking-[0.3em] text-premium-red">Liên hệ</h4>
-              <div className="space-y-6 text-gray-400">
+            <div className="lg:col-span-4 space-y-8">
+              <h4 className="text-sm font-black uppercase tracking-[0.3em] text-premium-red">Liên hệ & Địa chỉ</h4>
+              <div className="space-y-4 text-gray-400">
                 <div className="flex gap-4">
                   <span className="text-xl">📍</span>
-                  <p className="text-sm font-medium">{CONTACT.address}</p>
+                  <div className="space-y-1">
+                    <p className="text-xs font-bold text-white uppercase tracking-widest">Trụ sở chính:</p>
+                    <p className="text-sm font-medium">{CONTACT.address}</p>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <span className="text-xl">🏢</span>
+                  <div className="space-y-1">
+                    <p className="text-xs font-bold text-white uppercase tracking-widest">Showroom trưng bày:</p>
+                    <p className="text-sm font-medium">{CONTACT.showroom}</p>
+                  </div>
                 </div>
                 <div className="flex gap-4">
                   <span className="text-xl">📞</span>
-                  <p className="text-2xl font-black text-white">{CONTACT.phone}</p>
+                  <div className="space-y-1">
+                    <p className="text-xs font-bold text-white uppercase tracking-widest">Hotline 24/7:</p>
+                    <div className="flex flex-col gap-1">
+                      {CONTACT.phones.map(p => (
+                        <a key={p} href={`tel:${p.replace(/\./g, '')}`} className="text-xl font-black text-white hover:text-premium-red transition">{p}</a>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <span className="text-xl">✉️</span>
+                  <div className="space-y-1">
+                    <p className="text-xs font-bold text-white uppercase tracking-widest">Email hỗ trợ:</p>
+                    <p className="text-sm font-medium">{CONTACT.email}</p>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="lg:col-span-4 space-y-8">
-              <h4 className="text-sm font-black uppercase tracking-[0.3em] text-premium-red">Hỗ trợ</h4>
-              <div className="grid grid-cols-2 gap-4">
-                <FooterLink text="Bảo hành" />
-                <FooterLink text="Hướng dẫn" />
-                <FooterLink text="Thanh toán" />
-                <FooterLink text="Vận chuyển" />
-                <FooterLink text="Điều khoản" />
-                <FooterLink text="Bảo mật" />
+            <div className="lg:col-span-3 space-y-8">
+              <h4 className="text-sm font-black uppercase tracking-[0.3em] text-premium-red">Dịch vụ</h4>
+              <div className="grid grid-cols-1 gap-4">
+                <FooterLink text="Chính sách Bảo hành" />
+                <FooterLink text="Hướng dẫn sử dụng" />
+                <FooterLink text="Phương thức Thanh toán" />
+                <FooterLink text="Chính sách Vận chuyển" />
+                <FooterLink text="Điều khoản sử dụng" />
+                <FooterLink text="Bảo mật thông tin" />
               </div>
               <button onClick={() => setIsAdminOpen(true)} className="text-[9px] text-white/20 hover:text-white transition font-bold uppercase tracking-widest mt-4">Hệ thống quản trị</button>
             </div>
           </div>
           
           <div className="pt-12 text-center text-gray-600 text-xs font-bold uppercase tracking-[0.4em]">
-            &copy; 2024 Đức Phương Medical. Dedicated to your health.
+            &copy; 2024 {CONTACT.companyName}. All Rights Reserved.
           </div>
         </div>
       </footer>
@@ -311,10 +341,10 @@ const FeatureItem = ({icon, title, desc}: {icon: string, title: string, desc: st
   </div>
 );
 
-const SocialLink = ({icon}: {icon: string}) => (
-  <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-premium-red transition cursor-pointer text-xs font-black uppercase">
+const SocialLink = ({icon, href}: {icon: string, href: string}) => (
+  <a href={href} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-premium-red transition cursor-pointer text-xs font-black uppercase text-white hover:scale-110 transition-transform">
     {icon}
-  </div>
+  </a>
 );
 
 const FooterLink = ({text}: {text: string}) => (

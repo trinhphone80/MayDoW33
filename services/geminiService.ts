@@ -1,5 +1,6 @@
 
 import { GoogleGenAI } from "@google/genai";
+import { CONTACT } from "../constants";
 
 /**
  * Trợ lý tư vấn sức khỏe Đức Phương Medical.
@@ -7,11 +8,11 @@ import { GoogleGenAI } from "@google/genai";
  */
 export const getHealthAdvice = async (userPrompt: string) => {
   // Lấy API_KEY trực tiếp từ process.env (được Vite nạp vào runtime)
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = process.env.API_KEY;
 
   if (!apiKey || apiKey === "undefined") {
     console.error("LỖI: API_KEY không tồn tại trong môi trường.");
-    return "Dạ, hiện tại hệ thống tư vấn AI đang bận một chút. Bác vui lòng gọi hotline 0903.162.808 để em hỗ trợ bác ngay lập tức ạ!";
+    return `Dạ, hiện tại hệ thống tư vấn AI đang bận một chút. Bác vui lòng gọi hotline ${CONTACT.phone} để em hỗ trợ bác ngay lập tức ạ!`;
   }
 
   try {
@@ -36,6 +37,7 @@ export const getHealthAdvice = async (userPrompt: string) => {
         - Xưng hô thân mật: Bác, Cô, Chú, Anh, Chị.
         - Giọng văn: Ấm áp, chuyên nghiệp, thấu hiểu nỗi lo của người bệnh tiểu đường.
         - Nếu khách hỏi về độ chính xác: Máy đạt chuẩn CE (Châu Âu), đo nhanh 5s, chỉ cần 0.7 microlit máu.
+        - Hotline hỗ trợ: ${CONTACT.phone}.
         
         Mục tiêu cuối cùng: Thuyết phục khách hàng kéo xuống cuối trang điền "Họ tên + Số điện thoại" vào Form để giữ suất quà vì số lượng tặng mỗi ngày có hạn (chỉ còn vài suất).`,
         temperature: 0.8,
@@ -45,6 +47,6 @@ export const getHealthAdvice = async (userPrompt: string) => {
     return response.text || "Dạ, em chưa hiểu rõ ý bác. Bác có thể hỏi lại về máy W33 hoặc chương trình tặng quà được không ạ?";
   } catch (error) {
     console.error("Gemini API Error:", error);
-    return "Dạ, máy chủ tư vấn đang quá tải do nhiều bác đăng ký quá. Bác vui lòng điền thông tin vào form bên dưới, bên em sẽ gọi lại tư vấn kỹ cho bác ạ!";
+    return `Dạ, máy chủ tư vấn đang quá tải do nhiều bác đăng ký quá. Bác vui lòng điền thông tin vào form bên dưới, hoặc gọi ${CONTACT.phone}, bên em sẽ gọi lại tư vấn kỹ cho bác ạ!`;
   }
 };

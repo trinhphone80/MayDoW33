@@ -7,10 +7,18 @@ export const COLORS = {
 };
 
 export const CONTACT = {
-  phone: '0903.162.808',
+  companyName: 'CÔNG TY TNHH THIẾT BỊ Y TẾ ĐỨC PHƯƠNG',
+  phone: '0937.043.808',
+  phones: ['0938.062.808', '0937.043.808'],
   email: 'duyphuong7@gmail.com',
   address: '340 Âu Dương Lân, Phường Chánh Hưng, TP.HCM',
-  showroom: '12 Đông Hồ, Phường Tân Hòa, TP.HCM'
+  showroom: '12 Đông Hồ, Phường Tân Hòa, TP.HCM',
+  social: {
+    youtube: 'https://www.youtube.com/@ducphuongmedical',
+    facebook: 'https://www.facebook.com/ducphuongnguyenphuoctay',
+    tiktok: 'https://www.tiktok.com/@ducphuongmedical',
+    zalo: 'https://zalo.me/0938.062.808'
+  }
 };
 
 /**
